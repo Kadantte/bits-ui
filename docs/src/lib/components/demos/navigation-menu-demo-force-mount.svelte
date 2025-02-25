@@ -98,7 +98,7 @@
 					</li>
 
 					{@render ListItem({
-						href: "/docs",
+						href: "/docs/introduction",
 						title: "Introduction",
 						content: "Headless components for Svelte and SvelteKit",
 					})}
@@ -145,7 +145,7 @@
 		<NavigationMenu.Item>
 			<NavigationMenu.Link
 				class="hover:text-accent-foreground focus:bg-muted focus:text-accent-foreground data-[state=open]:shadow-mini dark:hover:bg-muted dark:data-[state=open]:bg-muted focus:outline-hidden group inline-flex h-8 w-max items-center justify-center rounded-[7px] bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-white disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-white"
-				href="/docs"
+				href="/docs/introduction"
 			>
 				<span class="hidden sm:inline"> Documentation </span>
 				<span class="inline sm:hidden"> Docs </span>

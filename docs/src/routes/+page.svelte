@@ -19,7 +19,7 @@
 <svelte:window
 	onkeydown={(e) => {
 		if (e.key === "s" && !(e.metaKey || e.ctrlKey || e.altKey || e.shiftKey)) {
-			goto("/docs");
+			goto("/docs/introduction");
 		}
 	}}
 />
@@ -45,7 +45,7 @@
 				</li>
 				<li class="inline-block">
 					<a
-						href="/docs"
+						href="/docs/introduction"
 						class="data-active:text-foreground data-active:bg-black/5 dark:data-active:bg-white/10 dark:data-active:text-white/100 rounded-[40px] px-[0.9em] pb-[0.4em] pt-[0.3em] text-sm font-medium leading-none tracking-[0.01em] dark:text-white/50"
 						>Docs</a
 					>
@@ -71,7 +71,7 @@
 				class="rounded-input bg-dark text-background shadow-mini hover:bg-dark/95 inline-flex
         h-10 items-center justify-center px-5 text-[14px]
         font-semibold active:scale-[0.98] active:transition-all"
-				href="/docs"
+				href="/docs/introduction"
 			>
 				Get started
 			</Button.Root>
@@ -108,7 +108,7 @@
 				class="rounded-input bg-dark shadow-mini hover:bg-dark/95 inline-flex h-10
         items-center justify-center
         px-3 active:scale-[0.98] active:transition-all dark:bg-white"
-				href="/docs"
+				href="/docs/introduction"
 			>
 				<kbd
 					class="bg-background-alt text-xxs pointer-events-none flex h-5 select-none items-center gap-1 rounded-sm border px-1.5 font-mono font-medium opacity-100 shadow-[0px_2px_0px_0px_#59595b] dark:border-[rgba(0,_0,_0,_0.10)] dark:bg-white dark:shadow-[0px_2px_0px_0px_#B8B8B8]"

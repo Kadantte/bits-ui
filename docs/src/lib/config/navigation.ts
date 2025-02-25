@@ -94,7 +94,7 @@ export const navigation: Navigation = {
 	main: [
 		{
 			title: "Docs",
-			href: "/docs",
+			href: "/docs/introduction",
 		},
 	],
 	sidebar: [
