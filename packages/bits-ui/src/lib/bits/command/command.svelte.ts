@@ -75,6 +75,8 @@ class CommandRootState {
 	commandState = $state.raw<CommandState>(null!);
 	// internal state that we mutate in batches and publish to the `state` at once
 	_commandState = $state<CommandState>(null!);
+	#originalItemOrder = new Map<string, number>();
+	#originalGroupOrder = new Map<string, number>();
 
 	#snapshot() {
 		return $state.snapshot(this._commandState);
@@ -164,7 +166,12 @@ class CommandRootState {
 	#sort(): void {
 		if (!this._commandState.search || this.opts.shouldFilter.current === false) {
 			// If no search and no selection yet, select first item
-			if (!this.commandState.value) this.#selectFirstItem();
+			if (!this.commandState.value) {
+				this.#selectFirstItem();
+			} else {
+				// If no search but selection exists, sort by original order
+				this.#restoreOriginalOrder();
+			}
 			return;
 		}
 
@@ -230,6 +237,52 @@ class CommandRootState {
 		for (const group of sortedGroups) {
 			const element = listInsertionElement?.querySelector(
 				`${COMMAND_GROUP_SELECTOR}[${COMMAND_VALUE_ATTR}="${encodeURIComponent(group[0])}"]`
+			);
+			element?.parentElement?.appendChild(element);
+		}
+	}
+
+	#restoreOriginalOrder(): void {
+		const listInsertionElement = this.viewportNode;
+		if (!listInsertionElement) return;
+
+		// Sort items by original order
+		const allItems = this.getValidItems();
+		const sortedItems = [...allItems].sort((a, b) => {
+			const idA = a.getAttribute("id") || "";
+			const idB = b.getAttribute("id") || "";
+			const orderA = this.#originalItemOrder.get(idA) ?? Number.MAX_SAFE_INTEGER;
+			const orderB = this.#originalItemOrder.get(idB) ?? Number.MAX_SAFE_INTEGER;
+			return orderA - orderB;
+		});
+
+		// Sort groups by original order
+		const groups = Array.from(this.allGroups.keys());
+		const sortedGroups = groups.sort((a, b) => {
+			const orderA = this.#originalGroupOrder.get(a) ?? Number.MAX_SAFE_INTEGER;
+			const orderB = this.#originalGroupOrder.get(b) ?? Number.MAX_SAFE_INTEGER;
+			return orderA - orderB;
+		});
+
+		// Reorder DOM
+		for (const item of sortedItems) {
+			const group = item.closest(COMMAND_GROUP_ITEMS_SELECTOR);
+			if (group) {
+				const itemToAppend =
+					item.parentElement === group
+						? item
+						: item.closest(`${COMMAND_GROUP_ITEMS_SELECTOR} > *`);
+
+				if (itemToAppend) {
+					group.appendChild(itemToAppend);
+				}
+			}
+		}
+
+		// Reorder groups
+		for (const groupId of sortedGroups) {
+			const element = listInsertionElement.querySelector(
+				`${COMMAND_GROUP_SELECTOR}[${COMMAND_VALUE_ATTR}="${encodeURIComponent(groupId)}"]`
 			);
 			element?.parentElement?.appendChild(element);
 		}
@@ -481,6 +534,10 @@ class CommandRootState {
 	 * @returns Cleanup function that handles selection
 	 */
 	registerItem(id: string, groupId: string | undefined): () => void {
+		// Track original position if not already tracked
+		if (!this.#originalItemOrder.has(id)) {
+			this.#originalItemOrder.set(id, this.#originalItemOrder.size);
+		}
 		this.allItems.add(id);
 
 		// Track this item within the group
@@ -496,9 +553,11 @@ class CommandRootState {
 		this.#sort();
 
 		this.#scheduleUpdate();
+
 		return () => {
 			this.allIds.delete(id);
 			this.allItems.delete(id);
+			this.#originalItemOrder.delete(id);
 			this.commandState.filtered.items.delete(id);
 			const selectedItem = this.#getSelectedItem();
 
@@ -521,11 +580,16 @@ class CommandRootState {
 	registerGroup(id: string): () => void {
 		if (!this.allGroups.has(id)) {
 			this.allGroups.set(id, new Set());
+
+			if (!this.#originalGroupOrder.has(id)) {
+				this.#originalGroupOrder.set(id, this.#originalGroupOrder.size);
+			}
 		}
 
 		return () => {
 			this.allIds.delete(id);
 			this.allGroups.delete(id);
+			this.#originalGroupOrder.delete(id);
 		};
 	}
 
