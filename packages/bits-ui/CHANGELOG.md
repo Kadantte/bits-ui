@@ -1,5 +1,27 @@
 # bits-ui
 
+## 1.3.12
+
+### Patch Changes
+
+-   fix(Radio Group): ensure currently selected value receives focus when entering radio group via tab ([#1296](https://github.com/huntabyte/bits-ui/pull/1296))
+
+-   fix(Command): ensure original order is properly restored when search is cleared ([#1293](https://github.com/huntabyte/bits-ui/pull/1293))
+
+## 1.3.11
+
+### Patch Changes
+
+-   fix(Command): ensure correct `aria-activedescendant` is applied to `Command.Input` ([#1288](https://github.com/huntabyte/bits-ui/pull/1288))
+
+-   improve(Combobox): add `aria-multiselectable` attribute to the content when type is `multiple` ([#1288](https://github.com/huntabyte/bits-ui/pull/1288))
+
+-   fix(AlertDialog): ensure `AlertDialog.Content` receives focus first on open to read alert title/description to screen readers ([#1288](https://github.com/huntabyte/bits-ui/pull/1288))
+
+-   fix(Context Menu): ensure `onOpenAutoFocus` prop is exposed and forwarded ([#1291](https://github.com/huntabyte/bits-ui/pull/1291))
+
+-   improve(Select): add `aria-multiselectable` attribute to the content when type is `multiple` ([#1288](https://github.com/huntabyte/bits-ui/pull/1288))
+
 ## 1.3.10
 
 ### Patch Changes
