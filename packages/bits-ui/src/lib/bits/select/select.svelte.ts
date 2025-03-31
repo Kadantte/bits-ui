@@ -177,19 +177,19 @@ class SelectSingleRootState extends SelectBaseRootState {
 			}
 		);
 
-		// watch.pre(
-		// 	() => this.opts.value.current,
-		// 	() => {
-		// 		if (!this.opts.items.current.length) return;
-		// 		const selectedLabel = this.opts.items.current.find(
-		// 			(item) => item.value === this.opts.value.current
-		// 		)?.label;
-		// 		if (!selectedLabel) return;
-		// 		if (this.inputValue !== selectedLabel) {
-		// 			this.inputValue = selectedLabel;
-		// 		}
-		// 	}
-		// );
+		watch.pre(
+			() => this.opts.value.current,
+			() => {
+				if (!this.opts.items.current.length) return;
+				const selectedLabel = this.opts.items.current.find(
+					(item) => item.value === this.opts.value.current
+				)?.label;
+				if (!selectedLabel) return;
+				if (this.inputValue !== selectedLabel) {
+					this.inputValue = selectedLabel;
+				}
+			}
+		);
 	}
 
 	includesItem(itemValue: string) {
