@@ -11,6 +11,7 @@
 		child,
 		defaultValue,
 		clearOnDeselect = false,
+		value = $bindable(""),
 		...restProps
 	}: ComboboxInputProps = $props();
 
