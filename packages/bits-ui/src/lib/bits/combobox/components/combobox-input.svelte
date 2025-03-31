@@ -3,7 +3,7 @@
 	import type { ComboboxInputProps } from "../types.js";
 	import { useId } from "$lib/internal/use-id.js";
 	import { FloatingLayer } from "$lib/bits/utilities/floating-layer/index.js";
-	import { useSelectInput } from "$lib/bits/select/select.svelte.js";
+	import { useComboboxInput } from "$lib/bits/select/select.svelte.js";
 
 	let {
 		id = useId(),
@@ -14,7 +14,7 @@
 		...restProps
 	}: ComboboxInputProps = $props();
 
-	const inputState = useSelectInput({
+	const inputState = useComboboxInput({
 		id: box.with(() => id),
 		ref: box.with(
 			() => ref,

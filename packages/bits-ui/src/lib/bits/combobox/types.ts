@@ -47,7 +47,12 @@ export type ComboboxInputPropsWithoutHTML = WithChild<{
 	 * @default false
 	 */
 	clearOnDeselect?: boolean;
+
+	/**
+	 * The value of the input. This is reactive and will change as the user types.
+	 */
+	value?: string;
 }>;
 
 export type ComboboxInputProps = ComboboxInputPropsWithoutHTML &
-	Without<Omit<BitsPrimitiveInputAttributes, "value">, ComboboxInputPropsWithoutHTML>;
+	Without<BitsPrimitiveInputAttributes, ComboboxInputPropsWithoutHTML>;

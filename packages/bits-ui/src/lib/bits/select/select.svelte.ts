@@ -176,6 +176,20 @@ class SelectSingleRootState extends SelectBaseRootState {
 				this.setInitialHighlightedNode();
 			}
 		);
+
+		// watch.pre(
+		// 	() => this.opts.value.current,
+		// 	() => {
+		// 		if (!this.opts.items.current.length) return;
+		// 		const selectedLabel = this.opts.items.current.find(
+		// 			(item) => item.value === this.opts.value.current
+		// 		)?.label;
+		// 		if (!selectedLabel) return;
+		// 		if (this.inputValue !== selectedLabel) {
+		// 			this.inputValue = selectedLabel;
+		// 		}
+		// 	}
+		// );
 	}
 
 	includesItem(itemValue: string) {
@@ -265,14 +279,14 @@ class SelectMultipleRootState extends SelectBaseRootState {
 
 type SelectRootState = SelectSingleRootState | SelectMultipleRootState;
 
-type SelectInputStateProps = WithRefProps &
+type ComboboxInputStateProps = WithRefProps &
 	ReadableBoxedValues<{
 		clearOnDeselect: boolean;
 	}>;
 
-class SelectInputState {
+class ComboboxInputState {
 	constructor(
-		readonly opts: SelectInputStateProps,
+		readonly opts: ComboboxInputStateProps,
 		readonly root: SelectRootState
 	) {
 		useRefById({
@@ -1342,8 +1356,8 @@ export function useSelectRoot(props: InitSelectProps) {
 	return SelectRootContext.set(rootState);
 }
 
-export function useSelectInput(props: SelectInputStateProps) {
-	return new SelectInputState(props, SelectRootContext.get());
+export function useComboboxInput(props: ComboboxInputStateProps) {
+	return new ComboboxInputState(props, SelectRootContext.get());
 }
 
 export function useSelectContent(props: SelectContentStateProps) {
